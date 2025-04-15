@@ -24,6 +24,12 @@ export function useDrinksGenerator(
     intervalRef.current = setInterval(() => {
       setDrinks(randomDrinks);
     }, frequency);
+
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    };
   }, [restartInterval]);
 
   return {
@@ -31,6 +37,9 @@ export function useDrinksGenerator(
     refresh: () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
       refreshInterval();
+    },
+    pause: () => {
+      if (intervalRef.current) clearInterval(intervalRef.current);
     },
   };
 }

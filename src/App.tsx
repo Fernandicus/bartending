@@ -1,9 +1,11 @@
 import "./App.css";
 import { useDrinksGenerator } from "./useDrinksGenerator";
 import { drinksList, drinksRange, frequency } from "./constants";
+import { RefreshIcon } from "./icons/RefreshIcon";
+import { PauseIcon } from "./icons/PuaseIcon";
 
 function App() {
-  const { drinks, refresh } = useDrinksGenerator(
+  const { drinks, refresh, pause } = useDrinksGenerator(
     frequency,
     drinksList,
     drinksRange
@@ -16,7 +18,28 @@ function App() {
           return <p>{drink}</p>;
         })}
       </div>
-      <button onClick={refresh}>Refresh</button>
+      <div style={{ display: "flex", gap: "1rem" }}>
+        <button
+          style={{
+            display: "flex",
+            gap: "0.5rem",
+          }}
+          onClick={refresh}
+        >
+          <RefreshIcon width={18} />
+          Refresh
+        </button>
+        <button
+          style={{
+            display: "flex",
+            gap: "0.5rem",
+          }}
+          onClick={pause}
+        >
+          <PauseIcon width={18} />
+          Pause
+        </button>
+      </div>
     </div>
   );
 }
