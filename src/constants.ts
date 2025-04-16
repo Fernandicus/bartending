@@ -53,7 +53,7 @@ export const drinksList = [
 
 export const drinksRange = {
   min: 1,
-  max: 3,
+  max: 4,
 };
 
 export const totalDrinksInterval = {
