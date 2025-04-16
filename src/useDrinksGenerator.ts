@@ -8,35 +8,27 @@ export function useDrinksGenerator(
 ) {
   const [drinks, setDrinks] = useState<string[]>([]);
   const intervalRef = useRef<number>(null);
-  const [restartInterval, setRestartInterval] = useState(false);
-
-  const refreshInterval = () => {
-    setRestartInterval((prev) => !prev);
-  };
 
   const randomDrinks = () => {
     return getRandomDrinks(drinksMenu, drinksRange);
   };
 
   useEffect(() => {
-    setDrinks(randomDrinks);
-
-    intervalRef.current = setInterval(() => {
-      setDrinks(randomDrinks);
-    }, frequency);
-
-    return () => {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-      }
-    };
-  }, [restartInterval]);
+    setDrinks(randomDrinks());
+  }, []);
 
   return {
     drinks,
     refresh: () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
-      refreshInterval();
+      setDrinks(randomDrinks);
+    },
+    play: () => {
+      setDrinks(randomDrinks);
+
+      intervalRef.current = setInterval(() => {
+        setDrinks(randomDrinks);
+      }, frequency);
     },
     pause: () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
