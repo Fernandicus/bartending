@@ -1,3 +1,22 @@
+type Beverage<Type extends string> = {
+  name: string;
+  receipt: string[];
+  type: Type;
+};
+type Cocktail = Beverage<"cocktail">;
+type SoftDrink = Beverage<"softdrink">;
+type Alcohol = Beverage<"alcohol">;
+type Coffee = Beverage<"coffee">;
+type Beer = Beverage<"beer">;
+type Wine = Beverage<"wine">;
+type Sangria = Beverage<"sangria">;
+
+type Drink = Cocktail | SoftDrink | Alcohol | Coffee | Beer | Wine | Sangria;
+
+type DrinkCatalog = {
+  [Catalog in Drink as Drink["type"]]: Catalog;
+};
+
 export const drinksList = [
   "AGUA MINERAL / GAS",
   "BEBIDA ENERGÉTICA",

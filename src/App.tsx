@@ -3,10 +3,12 @@ import { useDrinksGenerator } from "./useDrinksGenerator";
 import { drinksList, drinksRange, frequency } from "./constants";
 import { RefreshIcon } from "./icons/RefreshIcon";
 import { PauseIcon } from "./icons/PuaseIcon";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { PlayIcon } from "./icons/PlayIcon";
 import { EyeIcon } from "./icons/EyeIcon";
 import { EyeSlashIcon } from "./icons/EyeSlashIcon";
+import { Button } from "./Button";
+import { ClockIcon } from "./icons/ClockIcon";
 
 function App() {
   const { drinks, refresh, play, pause } = useDrinksGenerator(
@@ -15,6 +17,7 @@ function App() {
     drinksRange
   );
 
+  const timerRef = useRef(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
 
@@ -44,48 +47,41 @@ function App() {
           gap: "1rem",
         }}
       >
-        <button
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            gap: "0.5rem",
-          }}
+        <Button
+          label="Refresh"
+          icon={<RefreshIcon />}
           onClick={() => {
             refresh();
             setIsPlaying(false);
           }}
-        >
-          <RefreshIcon width={18} />
-          Refresh
-        </button>
-        <button
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            gap: "0.5rem",
-          }}
+        />
+        <Button
+          label={isHidden ? "Show" : "Hide"}
+          icon={isHidden ? <EyeIcon /> : <EyeSlashIcon />}
           onClick={() => {
+            if (timerRef.current) {
+              clearTimeout(timerRef.current);
+            }
+
             setIsHidden((prev) => !prev);
           }}
-        >
-          {isHidden ? (
-            <>
-              <EyeIcon width={18} />
-              Show
-            </>
-          ) : (
-            <>
-              <EyeSlashIcon width={18} />
-              Hidde
-            </>
-          )}
-        </button>
-        <button
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            gap: "0.5rem",
+        />
+        <Button
+          label="Timer"
+          icon={<ClockIcon />}
+          onClick={() => {
+            if (timerRef.current) {
+              clearTimeout(timerRef.current);
+            }
+
+            timerRef.current = setTimeout(() => {
+              setIsHidden(true);
+            }, 1500 * drinks.length);
           }}
+        />
+        <Button
+          label={isPlaying ? "Pause" : "Play"}
+          icon={isPlaying ? <PauseIcon /> : <PlayIcon />}
           onClick={() => {
             if (isPlaying) {
               setIsPlaying(false);
@@ -96,19 +92,7 @@ function App() {
             play();
             setIsPlaying(true);
           }}
-        >
-          {isPlaying ? (
-            <>
-              <PauseIcon width={18} />
-              Pause
-            </>
-          ) : (
-            <>
-              <PlayIcon width={18} />
-              Play
-            </>
-          )}
-        </button>
+        />
       </div>
     </div>
   );
