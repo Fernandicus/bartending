@@ -7,9 +7,9 @@ const poolBarCocktailsList: Drink[] = [
   {
     name: "Mojito",
     receipt: [
-      ["Ron Bacardi", 5],
-      ["Azúcar", 3],
       ["Lima", 4],
+      ["Azúcar", 3],
+      ["Ron Bacardi", 5],
       ["Hierba buena", 2],
       ["Soda", -1],
     ],
@@ -17,8 +17,8 @@ const poolBarCocktailsList: Drink[] = [
   {
     name: "Virgin Mojito",
     receipt: [
-      ["Azúcar blanco", 3],
-      ["Lima", 4],
+      ["Lima", 6],
+      ["Azúcar", 3],
       ["Hierba buena", 2],
       ["Soda", -1],
     ],
@@ -44,8 +44,8 @@ const poolBarCocktailsList: Drink[] = [
     name: "Mojito Sabores",
     receipt: [
       ["Lima", 4],
-      ["Hierbabuena", 2],
       ["Sirope fruta", 5],
+      ["Hierbabuena", 2],
       ["Soda", -1],
     ],
   },
@@ -53,8 +53,8 @@ const poolBarCocktailsList: Drink[] = [
     name: "Amaretto Sour",
     receipt: [
       ["Amaretto", 5],
-      ["Azúcar", 1],
       ["Z. Limón", 3],
+      ["Azúcar", 1],
       ["C. Huevo", 2],
     ],
   },
@@ -62,8 +62,8 @@ const poolBarCocktailsList: Drink[] = [
     name: "Whisky Sour",
     receipt: [
       ["JB", 5],
-      ["Azúcar", 3],
       ["Z. Limón", 4],
+      ["Azúcar", 3],
       ["C. Huevo", 2],
     ],
   },
@@ -72,15 +72,15 @@ const poolBarCocktailsList: Drink[] = [
     receipt: [
       ["Ron Bacardi", 5],
       ["Sirope Fruta", 5],
-      ["Azúcar", 3],
       ["Z. Limón", 3],
+      ["Azúcar", 3],
     ],
   },
   {
     name: "Aperol Spritz",
     receipt: [
       ["Aperol", 5],
-      ["Cava", 16],
+      ["Cava", -1],
       ["Soda", -1],
     ],
   },
@@ -88,16 +88,16 @@ const poolBarCocktailsList: Drink[] = [
     name: "Hugo",
     receipt: [
       ["Flor de Sauco", 5],
-      ["Cava", 16],
+      ["Cava", -1],
       ["Soda", -1],
     ],
   },
   {
     name: "Caipirinha / Caipiroska",
     receipt: [
-      ["Cachaça o Vodka Smirnoff", 5],
-      ["Azúcar blanco", 2],
       ["Lima", 4],
+      ["Azúcar", 3],
+      ["Cachaça / Vodka Smirnoff", 5],
       ["Soda", -1],
     ],
   },
@@ -109,8 +109,8 @@ const poolBarCocktailsList: Drink[] = [
       ["Gin Gordon's", 2],
       ["Triple Seco", 2],
       ["Vodka Smirnoff", 2],
-      ["Azucar", 2],
       ["Z. Limón", 3],
+      ["Azucar", 2],
       ["Coca-Cola Zero", -1],
     ],
   },
@@ -118,9 +118,9 @@ const poolBarCocktailsList: Drink[] = [
     name: "Porn Star Martini",
     receipt: [
       ["Vodka Smirnoff Vainilla", 5],
-      ["Pure de Passion Fruit", 4],
+      ["Pure de Passion Fruit", 5],
       ["Z. Limón", 3],
-      ["Passoa", 5],
+      ["Passoa", 2],
       ["Clara Huevo", 3],
     ],
   },
@@ -131,25 +131,25 @@ const poolBarCocktailsList: Drink[] = [
       ["Ron Bacardi", 3],
       ["Z. Limón", 3],
       ["Jarabe Caimán Lime Juice", 2],
+      ["Z. Piña", 4],
       ["Amaretto", 0.5],
       ["Granadina", 0.5],
-      ["Z. Piña", 4],
     ],
   },
   {
     name: "Sex on the Beach",
     receipt: [
-      ["Vodka Smirnoff", 4],
+      ["Vodka Smirnoff", 5],
       ["Licor de Melocotón", 3],
+      ["Z. Arándanos", 5],
+      ["Z. Naranja", -1],
       ["Granadina", 1],
-      ["Z. Naranja", 10],
-      ["Z. Arándanos", 8],
     ],
   },
   {
     name: "Espresso Martini",
     receipt: [
-      ["Vodka Smirnoff", 5],
+      ["Vodka Vainilla", 5],
       ["Kalhua", 3],
       ["Azucar", 2],
       ["Carga de Café", 5],
@@ -167,12 +167,12 @@ const poolBarCocktailsList: Drink[] = [
     name: "Bloody Mary",
     receipt: [
       ["Vodka Smirnoff", 5],
+      ["Z. Limón", 3],
+      ["Z. Tomate Pago", 20],
       ["Pimienta", -1],
       ["Sal", -1],
       ["Tabasco", -1],
       ["Lea Perrins", -1],
-      ["Z. Limón", 3],
-      ["Z. Tomate Pago", 20],
     ],
   },
   {
@@ -223,8 +223,8 @@ export const skyBarCocktailsList: Drink[] = [
     receipt: [
       ["Aperol", 5],
       ["Absolut Rapsberry", 3],
-      ["Azúcar", 2],
       ["Z. Limón", 2],
+      ["Azúcar", 2],
       ["C. Huevo", 3],
     ],
   },
@@ -269,7 +269,7 @@ export const skyBarCocktailsList: Drink[] = [
     receipt: [
       ["Canonita", 5],
       ["Soda de Pomelo", -1],
-      ["Cava Don Luciano", 15],
+      ["Cava Don Luciano", -1],
     ],
   },
   {
@@ -296,8 +296,28 @@ export const skyBarCocktailsList: Drink[] = [
       ["Licor Violeta", 3],
       ["Grand Marnier", 3],
       ["Z. Limón", 2],
-      ["Azúcar Líquida", 2],
+      ["Z. Piña", 2],
       ["Clara de Huevo", 2],
+    ],
+  },
+  {
+    name: "Fly",
+    receipt: [
+      ["Vodka Absolute", 4],
+      ["Lima Cordial", 4],
+      ["Midori Melon", 1],
+    ],
+  },
+  {
+    name: "Passion Bubbles",
+    receipt: [
+      ["Vodka Absolute", 5],
+      ["Campari", 2],
+      ["Z. Limon", 2],
+      ["Azucar", 2],
+      ["Sirope Maracuya", 4],
+      ["Z. Naranja", 2],
+      ["Cava", -1],
     ],
   },
 ];
