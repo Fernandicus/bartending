@@ -1,6 +1,11 @@
 import "./App.css";
 import { useDrinksGenerator } from "./useDrinksGenerator";
-import { drinksList, drinksRange, frequency } from "./constants";
+import {
+  allDrinksList,
+  drinksRange,
+  frequency,
+  skyBarCocktailsList,
+} from "./constants";
 import { RefreshIcon } from "./icons/RefreshIcon";
 import { PauseIcon } from "./icons/PuaseIcon";
 import { useRef, useState } from "react";
@@ -9,13 +14,48 @@ import { EyeIcon } from "./icons/EyeIcon";
 import { EyeSlashIcon } from "./icons/EyeSlashIcon";
 import { Button } from "./Button";
 import { ClockIcon } from "./icons/ClockIcon";
+import { SwitchButton } from "./SwitchButton";
 
-function App() {
-  const { drinks, refresh, play, pause } = useDrinksGenerator(
+type Mode = "SkyBar" | "PoolBar";
+
+export function App() {
+  const modes: Mode[] = ["PoolBar", "SkyBar"];
+  const [activeMode, setActiveMode] = useState(modes[0]);
+  const isPoolBar = activeMode === "PoolBar";
+
+  const poolDrinks = useDrinksGenerator(frequency, allDrinksList, drinksRange);
+  const skyDrinks = useDrinksGenerator(
     frequency,
-    drinksList,
+    skyBarCocktailsList.map(({ name }) => name),
     drinksRange
   );
+
+  const refresh = () => {
+    if (isPoolBar) {
+      poolDrinks.refresh();
+      return;
+    }
+
+    skyDrinks.refresh();
+  };
+  const pause = () => {
+    if (isPoolBar) {
+      poolDrinks.pause();
+      return;
+    }
+
+    skyDrinks.pause();
+  };
+  const play = () => {
+    if (isPoolBar) {
+      poolDrinks.play();
+      return;
+    }
+
+    skyDrinks.play();
+  };
+
+  const drinks = isPoolBar ? poolDrinks.drinks : skyDrinks.drinks;
 
   const timerRef = useRef(0);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -31,14 +71,29 @@ function App() {
         alignItems: "center",
       }}
     >
+      <SwitchButton<Mode> modes={modes} activeMode={setActiveMode} />
       <div style={{ textAlign: "left", height: "100%" }}>
-        {drinks.map((drink, i) => {
-          return (
-            <p key={i} style={{ visibility: isHidden ? "hidden" : "visible" }}>
-              {drink}
-            </p>
-          );
-        })}
+        {isPoolBar
+          ? poolDrinks.drinks.map((drink, i) => {
+              return (
+                <p
+                  key={i}
+                  style={{ visibility: isHidden ? "hidden" : "visible" }}
+                >
+                  {drink}
+                </p>
+              );
+            })
+          : skyDrinks.drinks.map((drink, i) => {
+              return (
+                <p
+                  key={i}
+                  style={{ visibility: isHidden ? "hidden" : "visible" }}
+                >
+                  {drink}
+                </p>
+              );
+            })}
       </div>
       <div
         style={{
@@ -97,5 +152,3 @@ function App() {
     </div>
   );
 }
-
-export default App;
