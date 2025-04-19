@@ -87,7 +87,7 @@ export function App() {
         }}
       >
         {isPoolBar
-          ? poolDrinks.drinks.map(({ drink }, i) => {
+          ? poolDrinks.drinks.map(({ amount, drink }, i) => {
               return (
                 <button
                   key={i}
@@ -98,13 +98,14 @@ export function App() {
                   style={{
                     visibility: isHidden ? "hidden" : "visible",
                     backgroundColor: "#2a2a2a",
+                    textAlign: "left",
                   }}
                 >
-                  {drink.name}
+                  {`${amount}  ${drink.name}`}
                 </button>
               );
             })
-          : skyDrinks.drinks.map(({ drink }, i) => {
+          : skyDrinks.drinks.map(({ amount, drink }, i) => {
               return (
                 <button
                   key={i}
@@ -115,9 +116,10 @@ export function App() {
                   style={{
                     visibility: isHidden ? "hidden" : "visible",
                     backgroundColor: "#2a2a2a",
+                    textAlign: "left",
                   }}
                 >
-                  {drink.name}
+                  {`${amount}  ${drink.name}`}
                 </button>
               );
             })}
@@ -199,7 +201,7 @@ export function App() {
               return (
                 <>
                   <p>
-                    {ingredient} - {amount}
+                    {ingredient} - {amount === -1 ? "(Top)" : amount}
                   </p>
                 </>
               );
