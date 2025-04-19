@@ -158,8 +158,8 @@ const poolBarCocktailsList: Drink[] = [
   {
     name: "Margarita",
     receipt: [
-      ["Tequila Jose Cuervo", 5],
-      ["Triple Seco", 5],
+      ["Tequila Jose Cuervo", 6],
+      ["Triple Seco", 3],
       ["Z. Limón", 3],
     ],
   },
