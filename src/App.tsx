@@ -2,6 +2,7 @@ import "./App.css";
 import { useDrinksGenerator } from "./useDrinksGenerator";
 import {
   allDrinksList,
+  Drink,
   drinksRange,
   frequency,
   skyBarCocktailsList,
@@ -15,6 +16,7 @@ import { EyeSlashIcon } from "./icons/EyeSlashIcon";
 import { Button } from "./Button";
 import { ClockIcon } from "./icons/ClockIcon";
 import { SwitchButton } from "./SwitchButton";
+import { Modal } from "./Modal";
 
 type Mode = "SkyBar" | "PoolBar";
 
@@ -22,11 +24,13 @@ export function App() {
   const modes: Mode[] = ["PoolBar", "SkyBar"];
   const [activeMode, setActiveMode] = useState(modes[0]);
   const isPoolBar = activeMode === "PoolBar";
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedDrink, setSelectedDrinks] = useState<Drink | null>(null);
 
   const poolDrinks = useDrinksGenerator(frequency, allDrinksList, drinksRange);
   const skyDrinks = useDrinksGenerator(
     frequency,
-    skyBarCocktailsList.map(({ name }) => name),
+    skyBarCocktailsList,
     drinksRange
   );
 
@@ -67,31 +71,54 @@ export function App() {
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
-        height: "70dvh",
+        height: "90dvh",
         alignItems: "center",
       }}
     >
       <SwitchButton<Mode> modes={modes} activeMode={setActiveMode} />
-      <div style={{ textAlign: "left", height: "100%" }}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "1rem",
+          textAlign: "left",
+          justifyContent: "center",
+          height: "100%",
+        }}
+      >
         {isPoolBar
-          ? poolDrinks.drinks.map((drink, i) => {
+          ? poolDrinks.drinks.map(({ drink }, i) => {
               return (
-                <p
+                <button
                   key={i}
-                  style={{ visibility: isHidden ? "hidden" : "visible" }}
+                  onClick={() => {
+                    setIsModalOpen(true);
+                    setSelectedDrinks(drink);
+                  }}
+                  style={{
+                    visibility: isHidden ? "hidden" : "visible",
+                    backgroundColor: "#2a2a2a",
+                  }}
                 >
-                  {drink}
-                </p>
+                  {drink.name}
+                </button>
               );
             })
-          : skyDrinks.drinks.map((drink, i) => {
+          : skyDrinks.drinks.map(({ drink }, i) => {
               return (
-                <p
+                <button
                   key={i}
-                  style={{ visibility: isHidden ? "hidden" : "visible" }}
+                  onClick={() => {
+                    setIsModalOpen(true);
+                    setSelectedDrinks(drink);
+                  }}
+                  style={{
+                    visibility: isHidden ? "hidden" : "visible",
+                    backgroundColor: "#2a2a2a",
+                  }}
                 >
-                  {drink}
-                </p>
+                  {drink.name}
+                </button>
               );
             })}
       </div>
@@ -102,53 +129,84 @@ export function App() {
           gap: "1rem",
         }}
       >
-        <Button
-          label="Refresh"
-          icon={<RefreshIcon />}
-          onClick={() => {
-            refresh();
-            setIsPlaying(false);
+        <div
+          style={{
+            display: "flex",
+            gap: "1rem",
           }}
-        />
-        <Button
-          label={isHidden ? "Show" : "Hide"}
-          icon={isHidden ? <EyeIcon /> : <EyeSlashIcon />}
-          onClick={() => {
-            if (timerRef.current) {
-              clearTimeout(timerRef.current);
-            }
-
-            setIsHidden((prev) => !prev);
-          }}
-        />
-        <Button
-          label="Timer"
-          icon={<ClockIcon />}
-          onClick={() => {
-            if (timerRef.current) {
-              clearTimeout(timerRef.current);
-            }
-
-            timerRef.current = setTimeout(() => {
-              setIsHidden(true);
-            }, 1500 * drinks.length);
-          }}
-        />
-        <Button
-          label={isPlaying ? "Pause" : "Play"}
-          icon={isPlaying ? <PauseIcon /> : <PlayIcon />}
-          onClick={() => {
-            if (isPlaying) {
+        >
+          <Button
+            label="Refresh"
+            icon={<RefreshIcon />}
+            onClick={() => {
+              refresh();
               setIsPlaying(false);
-              pause();
-              return;
-            }
+            }}
+          />
+          <Button
+            label={isHidden ? "Show" : "Hide"}
+            icon={isHidden ? <EyeIcon /> : <EyeSlashIcon />}
+            onClick={() => {
+              if (timerRef.current) {
+                clearTimeout(timerRef.current);
+              }
 
-            play();
-            setIsPlaying(true);
+              setIsHidden((prev) => !prev);
+            }}
+          />
+        </div>
+        <div
+          style={{
+            display: "flex",
+            gap: "1rem",
           }}
-        />
+        >
+          <Button
+            label="Timer"
+            icon={<ClockIcon />}
+            onClick={() => {
+              if (timerRef.current) {
+                clearTimeout(timerRef.current);
+              }
+
+              timerRef.current = setTimeout(() => {
+                setIsHidden(true);
+              }, 1500 * drinks.length);
+            }}
+          />
+          <Button
+            label={isPlaying ? "Pause" : "Play"}
+            icon={isPlaying ? <PauseIcon /> : <PlayIcon />}
+            onClick={() => {
+              if (isPlaying) {
+                setIsPlaying(false);
+                pause();
+                return;
+              }
+
+              play();
+              setIsPlaying(true);
+            }}
+          />
+        </div>
       </div>
+
+      {selectedDrink && selectedDrink.receipt.length > 0 && (
+        <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+          <h2>{selectedDrink.name}</h2>
+          <div style={{ textAlign: "left", marginLeft: "3rem" }}>
+            {selectedDrink.receipt.map(([ingredient, amount]) => {
+              return (
+                <>
+                  <p>
+                    {ingredient} - {amount}
+                  </p>
+                </>
+              );
+            })}
+          </div>
+        </Modal>
+      )}
     </div>
   );
 }

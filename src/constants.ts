@@ -1,4 +1,4 @@
-type Drink = {
+export type Drink = {
   name: string;
   receipt: Array<[string, number]>;
 };
@@ -47,6 +47,24 @@ const poolBarCocktailsList: Drink[] = [
       ["Hierbabuena", 2],
       ["Sirope fruta", 5],
       ["Soda", -1],
+    ],
+  },
+  {
+    name: "Amaretto Sour",
+    receipt: [
+      ["Amaretto", 5],
+      ["Azúcar", 1],
+      ["Z. Limón", 3],
+      ["C. Huevo", 2],
+    ],
+  },
+  {
+    name: "Whisky Sour",
+    receipt: [
+      ["JB", 5],
+      ["Azúcar", 3],
+      ["Z. Limón", 4],
+      ["C. Huevo", 2],
     ],
   },
   {
@@ -198,8 +216,18 @@ const poolBarCocktailsList: Drink[] = [
   },
 ];
 
-export const skyBarCocktailsList = [
+export const skyBarCocktailsList: Drink[] = [
   ...poolBarCocktailsList,
+  {
+    name: "Aperol Sour",
+    receipt: [
+      ["Aperol", 5],
+      ["Absolut Rapsberry", 3],
+      ["Azúcar", 2],
+      ["Z. Limón", 2],
+      ["C. Huevo", 3],
+    ],
+  },
   {
     name: "Pimm's Cup",
     receipt: [
@@ -229,11 +257,11 @@ export const skyBarCocktailsList = [
     name: "Altitud Mare",
     receipt: [
       ["Bombay Sapphire", 5],
-      ["Aperol", 2.5],
-      ["Z. Limón", 2.5],
+      ["Aperol", 3],
+      ["Z. Limón", 3],
       ["Z. Naranja", 5],
       ["Z. Piña", 5],
-      ["Azucar", 2.5],
+      ["Azucar", 3],
     ],
   },
   {
@@ -264,50 +292,50 @@ export const skyBarCocktailsList = [
   {
     name: "Amatista",
     receipt: [
-      ["Bombay Sapphire", 3],
+      ["Bombay Sapphire", 5],
       ["Licor Violeta", 3],
       ["Grand Marnier", 3],
       ["Z. Limón", 2],
-      ["Azúcar Líquida", 1.5],
+      ["Azúcar Líquida", 2],
       ["Clara de Huevo", 2],
     ],
   },
 ];
 
-export const allDrinksList = [
-  ...poolBarCocktailsList.map((drink) => drink.name),
-  "Combinado",
-  "Agua mineral / gas",
-  "Shandy",
-  "Bebida energética",
-  "Batido de cacao",
-  "Café expreso",
-  "Café americano",
-  "Latte macchiato",
-  "Cortado",
-  "Cappuccino",
-  "Té e infusiones",
-  "Matcha latte",
-  "Ice matcha latte",
-  "Estrella damm 25cl",
-  "Magners 25cl",
-  "Coronita 33cl",
-  "Free damm 33 cl 0,0 %",
-  "Copa viña real",
-  "Copa ribas",
-  "Copa prosecco",
-  "Copa emina",
-  "Copa marieta rose",
-  "Copa marieta semi",
-  "Miraval",
-  "Chivite",
-  "Copa jose pariente",
-  "Copa marques de riscal",
-  "Milkshake",
-  "Tropic mix",
-  "Peach paradise",
-  "Red banana",
-  "Combinado",
+export const allDrinksList: Drink[] = [
+  ...poolBarCocktailsList,
+  { name: "Combinado", receipt: [] },
+  { name: "Agua mineral / gas", receipt: [] },
+  { name: "Shandy", receipt: [] },
+  { name: "Bebida energética", receipt: [] },
+  { name: "Batido de cacao", receipt: [] },
+  { name: "Café expreso", receipt: [] },
+  { name: "Café americano", receipt: [] },
+  { name: "Latte macchiato", receipt: [] },
+  { name: "Cortado", receipt: [] },
+  { name: "Cappuccino", receipt: [] },
+  { name: "Té e infusiones", receipt: [] },
+  { name: "Matcha latte", receipt: [] },
+  { name: "Ice matcha latte", receipt: [] },
+  { name: "Estrella damm 25cl", receipt: [] },
+  { name: "Magners 25cl", receipt: [] },
+  { name: "Coronita 33cl", receipt: [] },
+  { name: "Free damm 33 cl 0,0 %", receipt: [] },
+  { name: "Copa viña real", receipt: [] },
+  { name: "Copa ribas", receipt: [] },
+  { name: "Copa prosecco", receipt: [] },
+  { name: "Copa emina", receipt: [] },
+  { name: "Copa marieta rose", receipt: [] },
+  { name: "Copa marieta semi", receipt: [] },
+  { name: "Miraval", receipt: [] },
+  { name: "Chivite", receipt: [] },
+  { name: "Copa jose pariente", receipt: [] },
+  { name: "Copa marques de riscal", receipt: [] },
+  { name: "Milkshake", receipt: [] },
+  { name: "Tropic mix", receipt: [] },
+  { name: "Peach paradise", receipt: [] },
+  { name: "Red banana", receipt: [] },
+  { name: "Combinado", receipt: [] },
 ];
 
 export const drinksRange = {

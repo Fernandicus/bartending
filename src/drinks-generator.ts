@@ -1,17 +1,18 @@
-import { totalDrinksInterval } from "./constants";
+import { Drink, totalDrinksInterval } from "./constants";
 
 function getRandomNum(drinksRange: { min: number; max: number }) {
   const { max, min } = drinksRange;
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+type RandomDrinks = { amount: number; drink: Drink };
 export function getRandomDrinks(
-  drinks: string[],
+  drinks: Drink[],
   drinksRange: { min: number; max: number }
-) {
+): RandomDrinks[] {
   const numBebidas = getRandomNum(totalDrinksInterval);
 
-  const seleccion = [];
+  const seleccion: RandomDrinks[] = [];
   const copy = [...drinks];
 
   for (let i = 0; i < numBebidas && copy.length > 0; i++) {
@@ -21,7 +22,7 @@ export function getRandomDrinks(
       min: drinksRange.min,
       max: drinksRange.max - 1,
     });
-    seleccion.push(`${cantidad} ${bebida}`);
+    seleccion.push({ amount: cantidad, drink: bebida });
   }
 
   return seleccion;

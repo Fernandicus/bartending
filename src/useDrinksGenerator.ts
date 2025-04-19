@@ -1,12 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import { getRandomDrinks } from "./drinks-generator";
+import { Drink } from "./constants";
 
 export function useDrinksGenerator(
   frequency: number,
-  drinksMenu: string[],
+  drinksMenu: Drink[],
   drinksRange: { min: number; max: number }
 ) {
-  const [drinks, setDrinks] = useState<string[]>([]);
+  const [drinks, setDrinks] = useState<ReturnType<typeof getRandomDrinks>>([]);
   const intervalRef = useRef<number>(null);
 
   const randomDrinks = () => {
