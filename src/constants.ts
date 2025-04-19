@@ -322,7 +322,7 @@ export const skyBarCocktailsList: Drink[] = [
   },
 ];
 
-export const allDrinksList: Drink[] = [
+export const poolBarDrinksList: Drink[] = [
   ...poolBarCocktailsList,
   { name: "Combinado", receipt: [] },
   { name: "Agua mineral / gas", receipt: [] },

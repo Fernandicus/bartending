@@ -1,7 +1,7 @@
 import "./App.css";
 import { useDrinksGenerator } from "./useDrinksGenerator";
 import {
-  allDrinksList,
+  poolBarDrinksList,
   Drink,
   drinksRange,
   frequency,
@@ -26,8 +26,13 @@ export function App() {
   const isPoolBar = activeMode === "PoolBar";
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedDrink, setSelectedDrinks] = useState<Drink | null>(null);
+  const [showReceipts, setShowReceipts] = useState(false);
 
-  const poolDrinks = useDrinksGenerator(frequency, allDrinksList, drinksRange);
+  const poolDrinks = useDrinksGenerator(
+    frequency,
+    poolBarDrinksList,
+    drinksRange
+  );
   const skyDrinks = useDrinksGenerator(
     frequency,
     skyBarCocktailsList,
@@ -76,54 +81,77 @@ export function App() {
       }}
     >
       <SwitchButton<Mode> modes={modes} activeMode={setActiveMode} />
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          gap: "1rem",
-          textAlign: "left",
-          justifyContent: "center",
-          height: "100%",
-        }}
-      >
-        {isPoolBar
-          ? poolDrinks.drinks.map(({ amount, drink }, i) => {
-              return (
-                <button
-                  key={i}
-                  onClick={() => {
-                    setIsModalOpen(true);
-                    setSelectedDrinks(drink);
-                  }}
-                  style={{
-                    visibility: isHidden ? "hidden" : "visible",
-                    backgroundColor: "#2a2a2a",
-                    textAlign: "left",
-                  }}
-                >
-                  {`${amount}  ${drink.name}`}
-                </button>
-              );
-            })
-          : skyDrinks.drinks.map(({ amount, drink }, i) => {
-              return (
-                <button
-                  key={i}
-                  onClick={() => {
-                    setIsModalOpen(true);
-                    setSelectedDrinks(drink);
-                  }}
-                  style={{
-                    visibility: isHidden ? "hidden" : "visible",
-                    backgroundColor: "#2a2a2a",
-                    textAlign: "left",
-                  }}
-                >
-                  {`${amount}  ${drink.name}`}
-                </button>
-              );
-            })}
-      </div>
+      {!showReceipts ? (
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "1rem",
+            textAlign: "left",
+            justifyContent: "center",
+            height: "100%",
+          }}
+        >
+          {isPoolBar
+            ? poolDrinks.drinks.map(({ amount, drink }, i) => {
+                return (
+                  <button
+                    key={i}
+                    onClick={() => {
+                      setIsModalOpen(true);
+                      setSelectedDrinks(drink);
+                    }}
+                    style={{
+                      visibility: isHidden ? "hidden" : "visible",
+                      backgroundColor: "#2a2a2a",
+                      textAlign: "left",
+                    }}
+                  >
+                    {`${amount}  ${drink.name}`}
+                  </button>
+                );
+              })
+            : skyDrinks.drinks.map(({ amount, drink }, i) => {
+                return (
+                  <button
+                    key={i}
+                    onClick={() => {
+                      setIsModalOpen(true);
+                      setSelectedDrinks(drink);
+                    }}
+                    style={{
+                      visibility: isHidden ? "hidden" : "visible",
+                      backgroundColor: "#2a2a2a",
+                      textAlign: "left",
+                    }}
+                  >
+                    {`${amount}  ${drink.name}`}
+                  </button>
+                );
+              })}
+        </div>
+      ) : (
+        <div>
+          {skyBarCocktailsList.map((drink, i) => {
+            return (
+              <button
+                key={i}
+                onClick={() => {
+                  setIsModalOpen(true);
+                  setSelectedDrinks(drink);
+                }}
+                style={{
+                  visibility: isHidden ? "hidden" : "visible",
+                  backgroundColor: "#2a2a2a",
+                  textAlign: "left",
+                }}
+              >
+                {drink.name}
+              </button>
+            );
+          })}
+        </div>
+      )}
       <div
         style={{
           display: "flex",
@@ -188,6 +216,14 @@ export function App() {
 
               play();
               setIsPlaying(true);
+            }}
+          />
+        </div>
+        <div>
+          <Button
+            label={"Receipts"}
+            onClick={() => {
+              setShowReceipts((prev) => !prev);
             }}
           />
         </div>
