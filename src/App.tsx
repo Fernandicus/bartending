@@ -80,6 +80,21 @@ export function App() {
         alignItems: "center",
       }}
     >
+      <div
+        style={{
+          marginBottom: "1rem",
+          display: "flex",
+          justifyContent: "start",
+          width: "100%",
+        }}
+      >
+        <Button
+          label={"Receipts"}
+          onClick={() => {
+            setShowReceipts((prev) => !prev);
+          }}
+        />
+      </div>
       <SwitchButton<Mode> modes={modes} activeMode={setActiveMode} />
       {!showReceipts ? (
         <div
@@ -131,25 +146,27 @@ export function App() {
               })}
         </div>
       ) : (
-        <div>
-          {skyBarCocktailsList.map((drink, i) => {
-            return (
-              <button
-                key={i}
-                onClick={() => {
-                  setIsModalOpen(true);
-                  setSelectedDrinks(drink);
-                }}
-                style={{
-                  visibility: isHidden ? "hidden" : "visible",
-                  backgroundColor: "#2a2a2a",
-                  textAlign: "left",
-                }}
-              >
-                {drink.name}
-              </button>
-            );
-          })}
+        <div style={{ display: "flex", flexDirection: "column", gap: ".5rem" }}>
+          {skyBarCocktailsList
+            .sort((drinkA, drinkB) => drinkA.name.localeCompare(drinkB.name))
+            .map((drink, i) => {
+              return (
+                <button
+                  key={i}
+                  onClick={() => {
+                    setIsModalOpen(true);
+                    setSelectedDrinks(drink);
+                  }}
+                  style={{
+                    visibility: isHidden ? "hidden" : "visible",
+                    backgroundColor: "#2a2a2a",
+                    textAlign: "left",
+                  }}
+                >
+                  {drink.name}
+                </button>
+              );
+            })}
         </div>
       )}
       <div
@@ -173,15 +190,19 @@ export function App() {
               setIsPlaying(false);
             }}
           />
+
           <Button
-            label={isHidden ? "Show" : "Hide"}
-            icon={isHidden ? <EyeIcon /> : <EyeSlashIcon />}
+            label={isPlaying ? "Pause" : "Play"}
+            icon={isPlaying ? <PauseIcon /> : <PlayIcon />}
             onClick={() => {
-              if (timerRef.current) {
-                clearTimeout(timerRef.current);
+              if (isPlaying) {
+                setIsPlaying(false);
+                pause();
+                return;
               }
 
-              setIsHidden((prev) => !prev);
+              play();
+              setIsPlaying(true);
             }}
           />
         </div>
@@ -205,25 +226,14 @@ export function App() {
             }}
           />
           <Button
-            label={isPlaying ? "Pause" : "Play"}
-            icon={isPlaying ? <PauseIcon /> : <PlayIcon />}
+            label={isHidden ? "Show" : "Hide"}
+            icon={isHidden ? <EyeIcon /> : <EyeSlashIcon />}
             onClick={() => {
-              if (isPlaying) {
-                setIsPlaying(false);
-                pause();
-                return;
+              if (timerRef.current) {
+                clearTimeout(timerRef.current);
               }
 
-              play();
-              setIsPlaying(true);
-            }}
-          />
-        </div>
-        <div>
-          <Button
-            label={"Receipts"}
-            onClick={() => {
-              setShowReceipts((prev) => !prev);
+              setIsHidden((prev) => !prev);
             }}
           />
         </div>
