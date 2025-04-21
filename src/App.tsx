@@ -1,22 +1,23 @@
 import "./App.css";
-import { useDrinksGenerator } from "./useDrinksGenerator";
+import { useDrinksGenerator } from "./components/useDrinksGenerator";
 import {
   poolBarDrinksList,
   Drink,
   drinksRange,
   frequency,
   skyBarCocktailsList,
-} from "./constants";
+} from "./components/constants";
 import { RefreshIcon } from "./icons/RefreshIcon";
 import { PauseIcon } from "./icons/PuaseIcon";
 import { useRef, useState } from "react";
 import { PlayIcon } from "./icons/PlayIcon";
 import { EyeIcon } from "./icons/EyeIcon";
 import { EyeSlashIcon } from "./icons/EyeSlashIcon";
-import { Button } from "./Button";
+import { Button } from "./components/Button";
 import { ClockIcon } from "./icons/ClockIcon";
-import { SwitchButton } from "./SwitchButton";
-import { Modal } from "./Modal";
+import { SwitchButton } from "./components/SwitchButton";
+import { Modal } from "./components/Modal";
+import { CircularChart } from "./components/CircularChart";
 
 type Mode = "SkyBar" | "PoolBar";
 
@@ -27,6 +28,7 @@ export function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedDrink, setSelectedDrinks] = useState<Drink | null>(null);
   const [showReceipts, setShowReceipts] = useState(false);
+  const [showProgress, setShowProgress] = useState(false);
 
   const poolDrinks = useDrinksGenerator(
     frequency,
@@ -94,166 +96,201 @@ export function App() {
             setShowReceipts((prev) => !prev);
           }}
         />
+        <Button
+          label={"Progress"}
+          onClick={() => {
+            setShowProgress((prev) => !prev);
+          }}
+        />
       </div>
-      <SwitchButton<Mode> modes={modes} activeMode={setActiveMode} />
-      {!showReceipts ? (
+      {showProgress ? (
         <div
           style={{
             display: "flex",
-            flexDirection: "column",
-            gap: "1rem",
-            textAlign: "left",
-            justifyContent: "center",
             height: "100%",
+            justifyContent: "center",
+            alignItems: "center",
           }}
         >
-          {isPoolBar
-            ? poolDrinks.drinks.map(({ amount, drink }, i) => {
-                return (
-                  <button
-                    key={i}
-                    onClick={() => {
-                      setIsModalOpen(true);
-                      setSelectedDrinks(drink);
-                    }}
-                    style={{
-                      visibility: isHidden ? "hidden" : "visible",
-                      backgroundColor: "#2a2a2a",
-                      textAlign: "left",
-                    }}
-                  >
-                    {`${amount}  ${drink.name}`}
-                  </button>
-                );
-              })
-            : skyDrinks.drinks.map(({ amount, drink }, i) => {
-                return (
-                  <button
-                    key={i}
-                    onClick={() => {
-                      setIsModalOpen(true);
-                      setSelectedDrinks(drink);
-                    }}
-                    style={{
-                      visibility: isHidden ? "hidden" : "visible",
-                      backgroundColor: "#2a2a2a",
-                      textAlign: "left",
-                    }}
-                  >
-                    {`${amount}  ${drink.name}`}
-                  </button>
-                );
-              })}
+          <CircularChart
+            startDate={new Date("2025-04-04")}
+            endDate={new Date("2025-10-31")}
+          />
         </div>
       ) : (
-        <div style={{ display: "flex", flexDirection: "column", gap: ".5rem" }}>
-          {skyBarCocktailsList
-            .sort((drinkA, drinkB) => drinkA.name.localeCompare(drinkB.name))
-            .map((drink, i) => {
-              return (
-                <button
-                  key={i}
-                  onClick={() => {
-                    setIsModalOpen(true);
-                    setSelectedDrinks(drink);
-                  }}
-                  style={{
-                    visibility: isHidden ? "hidden" : "visible",
-                    backgroundColor: "#2a2a2a",
-                    textAlign: "left",
-                  }}
-                >
-                  {drink.name}
-                </button>
-              );
-            })}
-        </div>
-      )}
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          gap: "1rem",
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            gap: "1rem",
-          }}
-        >
-          <Button
-            label="Refresh"
-            icon={<RefreshIcon />}
-            onClick={() => {
-              refresh();
-              setIsPlaying(false);
+        <>
+          {!showReceipts ? (
+            <>
+              <SwitchButton<Mode> modes={modes} activeMode={setActiveMode} />
+
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "1rem",
+                  textAlign: "left",
+                  justifyContent: "center",
+                  height: "100%",
+                }}
+              >
+                {isPoolBar
+                  ? poolDrinks.drinks.map(({ amount, drink }, i) => {
+                      return (
+                        <button
+                          key={i}
+                          onClick={() => {
+                            setIsModalOpen(true);
+                            setSelectedDrinks(drink);
+                          }}
+                          style={{
+                            visibility: isHidden ? "hidden" : "visible",
+                            backgroundColor: "#2a2a2a",
+                            textAlign: "left",
+                          }}
+                        >
+                          {`${amount}  ${drink.name}`}
+                        </button>
+                      );
+                    })
+                  : skyDrinks.drinks.map(({ amount, drink }, i) => {
+                      return (
+                        <button
+                          key={i}
+                          onClick={() => {
+                            setIsModalOpen(true);
+                            setSelectedDrinks(drink);
+                          }}
+                          style={{
+                            visibility: isHidden ? "hidden" : "visible",
+                            backgroundColor: "#2a2a2a",
+                            textAlign: "left",
+                          }}
+                        >
+                          {`${amount}  ${drink.name}`}
+                        </button>
+                      );
+                    })}
+              </div>
+            </>
+          ) : (
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: ".5rem",
+              }}
+            >
+              {skyBarCocktailsList
+                .sort((drinkA, drinkB) =>
+                  drinkA.name.localeCompare(drinkB.name)
+                )
+                .map((drink, i) => {
+                  return (
+                    <button
+                      key={i}
+                      onClick={() => {
+                        setIsModalOpen(true);
+                        setSelectedDrinks(drink);
+                      }}
+                      style={{
+                        visibility: isHidden ? "hidden" : "visible",
+                        backgroundColor: "#2a2a2a",
+                        textAlign: "left",
+                      }}
+                    >
+                      {drink.name}
+                    </button>
+                  );
+                })}
+            </div>
+          )}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "1rem",
             }}
-          />
+          >
+            <div
+              style={{
+                display: "flex",
+                gap: "1rem",
+              }}
+            >
+              <Button
+                label="Refresh"
+                icon={<RefreshIcon />}
+                onClick={() => {
+                  refresh();
+                  setIsPlaying(false);
+                }}
+              />
 
-          <Button
-            label={isPlaying ? "Pause" : "Play"}
-            icon={isPlaying ? <PauseIcon /> : <PlayIcon />}
-            onClick={() => {
-              if (isPlaying) {
-                setIsPlaying(false);
-                pause();
-                return;
-              }
+              <Button
+                label={isPlaying ? "Pause" : "Play"}
+                icon={isPlaying ? <PauseIcon /> : <PlayIcon />}
+                onClick={() => {
+                  if (isPlaying) {
+                    setIsPlaying(false);
+                    pause();
+                    return;
+                  }
 
-              play();
-              setIsPlaying(true);
-            }}
-          />
-        </div>
-        <div
-          style={{
-            display: "flex",
-            gap: "1rem",
-          }}
-        >
-          <Button
-            label="Timer"
-            icon={<ClockIcon />}
-            onClick={() => {
-              if (timerRef.current) {
-                clearTimeout(timerRef.current);
-              }
+                  play();
+                  setIsPlaying(true);
+                }}
+              />
+            </div>
+            <div
+              style={{
+                display: "flex",
+                gap: "1rem",
+              }}
+            >
+              <Button
+                label="Timer"
+                icon={<ClockIcon />}
+                onClick={() => {
+                  if (timerRef.current) {
+                    clearTimeout(timerRef.current);
+                  }
 
-              timerRef.current = setTimeout(() => {
-                setIsHidden(true);
-              }, 1500 * drinks.length);
-            }}
-          />
-          <Button
-            label={isHidden ? "Show" : "Hide"}
-            icon={isHidden ? <EyeIcon /> : <EyeSlashIcon />}
-            onClick={() => {
-              if (timerRef.current) {
-                clearTimeout(timerRef.current);
-              }
+                  timerRef.current = setTimeout(() => {
+                    setIsHidden(true);
+                  }, 1500 * drinks.length);
+                }}
+              />
+              <Button
+                label={isHidden ? "Show" : "Hide"}
+                icon={isHidden ? <EyeIcon /> : <EyeSlashIcon />}
+                onClick={() => {
+                  if (timerRef.current) {
+                    clearTimeout(timerRef.current);
+                  }
 
-              setIsHidden((prev) => !prev);
-            }}
-          />
-        </div>
-      </div>
-
-      {selectedDrink && selectedDrink.receipt.length > 0 && (
-        <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-          <h2>{selectedDrink.name}</h2>
-          <div style={{ textAlign: "left", marginLeft: "3rem" }}>
-            {selectedDrink.receipt.map(([ingredient, amount]) => {
-              return (
-                <>
-                  <p>
-                    {ingredient} - {amount === -1 ? "(Top)" : amount}
-                  </p>
-                </>
-              );
-            })}
+                  setIsHidden((prev) => !prev);
+                }}
+              />
+            </div>
           </div>
-        </Modal>
+
+          {selectedDrink && selectedDrink.receipt.length > 0 && (
+            <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+              <h2>{selectedDrink.name}</h2>
+              <div style={{ textAlign: "left", marginLeft: "3rem" }}>
+                {selectedDrink.receipt.map(([ingredient, amount]) => {
+                  return (
+                    <>
+                      <p>
+                        {ingredient} - {amount === -1 ? "(Top)" : amount}
+                      </p>
+                    </>
+                  );
+                })}
+              </div>
+            </Modal>
+          )}
+        </>
       )}
     </div>
   );

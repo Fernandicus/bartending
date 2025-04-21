@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { SwitchArrowsIcon } from "./icons/SwitchArrowsIcon";
+import { SwitchArrowsIcon } from "../icons/SwitchArrowsIcon";
 import { Button } from "./Button";
 
 type SwitchButtonProps<Mode extends string> = {
