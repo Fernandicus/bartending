@@ -35,7 +35,7 @@ export function CircularChart({ startDate, endDate }: Props) {
             startAngle={90}
             endAngle={-270} // Giro horario
           >
-            {data.map((entry, index) => (
+            {data.map((_, index) => (
               <Cell
                 key={`cell-${index}`}
                 fill={COLORS[index % COLORS.length]}
