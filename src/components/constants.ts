@@ -118,9 +118,9 @@ const poolBarCocktailsList: Drink[] = [
     name: "Porn Star Martini",
     receipt: [
       ["Vodka Smirnoff Vainilla", 5],
-      ["Pure de Passion Fruit", 5],
+      ["Sirope Maracuya", 5],
       ["Z. Limón", 3],
-      ["Passoa", 2],
+      ["Passoa", 5],
       ["Clara Huevo", 3],
     ],
   },
@@ -158,8 +158,8 @@ const poolBarCocktailsList: Drink[] = [
   {
     name: "Margarita",
     receipt: [
-      ["Tequila Jose Cuervo", 6],
-      ["Triple Seco", 3],
+      ["Tequila Jose Cuervo", 5],
+      ["Triple Seco", 5],
       ["Z. Limón", 3],
     ],
   },
@@ -238,17 +238,9 @@ export const skyBarCocktailsList: Drink[] = [
     ],
   },
   {
-    name: "Moscow Mule",
+    name: "Moscow / London Mule",
     receipt: [
-      ["Vodka Absolut", 5],
-      ["Z. Limón", 1.5],
-      ["Ginger Beer", -1],
-    ],
-  },
-  {
-    name: "London Mule",
-    receipt: [
-      ["Bombay Sapphire", 5],
+      ["Absolut / Bombay", 5],
       ["Z. Limón", 1.5],
       ["Ginger Beer", -1],
     ],
@@ -259,9 +251,9 @@ export const skyBarCocktailsList: Drink[] = [
       ["Bombay Sapphire", 5],
       ["Aperol", 3],
       ["Z. Limón", 3],
+      ["Azucar", 3],
       ["Z. Naranja", 5],
       ["Z. Piña", 5],
-      ["Azucar", 3],
     ],
   },
   {
@@ -275,7 +267,8 @@ export const skyBarCocktailsList: Drink[] = [
   {
     name: "Tommy's Margarita",
     receipt: [
-      ["Tequila Jose Cuervo", 6],
+      ["Tequila Jose Cuervo", 5],
+      ["Triple Sec", 5],
       ["Z. Limón", 3],
       ["Sirope de Agave", 2],
     ],
