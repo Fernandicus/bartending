@@ -149,7 +149,7 @@ const poolBarCocktailsList: Drink[] = [
   {
     name: "Espresso Martini",
     receipt: [
-      ["Vodka Vainilla", 5],
+      ["Vodka", 5],
       ["Kalhua", 3],
       ["Azucar", 2],
       ["Carga de Café", 5],
